@@ -1,28 +1,31 @@
 //--------------------------------------------------------------------------
-//Meeting Cost Meter
-//Ç∆ÇËÇ†Ç¶Ç∏ë™ãóÇ≈Ç´ÇÈÉoÅ[ÉWÉáÉì
+//MeetingCostMeter
 //--------------------------------------------------------------------------
 
 // include the library code:
 #include <LiquidCrystal.h>
 #include <Servo.h>
 #include <Wire.h>
-#include <VL53L0X.h> //add lib
+//using VL53L0X library for Arduino(https://github.com/pololu/vl53l0x-arduino)
+#include "VL53L0X.h"
 
-//--------------------------------------------------------------------------
 //lcd init pin
 const int rs = 7, rw = 8, en = 9, d4 = 10, d5 = 11, d6 = 12, d7 = 13;
 LiquidCrystal lcd(rs, rw , en, d4, d5, d6, d7);
+
 //length sensor
 VL53L0X sensor;
+
 //servo object
 Servo myservo;
+
 //pin setting
 const int ServoPin = 2;
 const int SWPin_1 = 3;
 const int SWPin_2 = 4;
 const int SWPin_3 = 5;
-//--------------------------------------------------------------------------
+
+#define VER_COMENT "MeetingCostMeter V1.0.0"
 
 //--------------------------------------------------------------------------
 //setup()
@@ -30,10 +33,12 @@ const int SWPin_3 = 5;
 void setup() {
   //init LCD
   {
-    // set up the LCD's number of columns and rows:
+    //set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
+
+    //write lcd
     lcd.setCursor(0, 0);
-    lcd.print("Meeting Counter Ver1.0.0");
+    lcd.print(VER_COMENT);
     lcd.setCursor(0, 1);
     lcd.print("Initialize...");
   }
@@ -50,12 +55,12 @@ void setup() {
     sensor.init();
     sensor.setTimeout(500);
     /*
-    //set long rangemode
-    // lower the return signal rate limit (default is 0.25 MCPS)
-    sensor.setSignalRateLimit(0.1);
-    // increase laser pulse periods (defaults are 14 and 10 PCLKs)
-    sensor.setVcselPulsePeriod(VL53L0X::VcselPeriodPreRange, 18);
-    sensor.setVcselPulsePeriod(VL53L0X::VcselPeriodFinalRange, 14);
+      //set long rangemode
+      // lower the return signal rate limit (default is 0.25 MCPS)
+      sensor.setSignalRateLimit(0.1);
+      // increase laser pulse periods (defaults are 14 and 10 PCLKs)
+      sensor.setVcselPulsePeriod(VL53L0X::VcselPeriodPreRange, 18);
+      sensor.setVcselPulsePeriod(VL53L0X::VcselPeriodFinalRange, 14);
     */
     //HIGH_ACCURACY default 200ms 200000
     sensor.setMeasurementTimingBudget(50000);
@@ -107,9 +112,9 @@ void loop() {
   {
     Serial.println("-------------------------------------");
     myservo.attach(ServoPin);
-     myservo.write(60);
-     delay(500);
-    for (int i = 60; i <= 120; i+=2)
+    myservo.write(60);
+    delay(500);
+    for (int i = 60; i <= 120; i += 2)
     {
       //read length
       float length = sensor.readRangeSingleMillimeters();
@@ -119,7 +124,7 @@ void loop() {
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print(dtostrf(length, 5, 1, s));
-      
+
       //move position
       myservo.write(i);
       delay(50);
