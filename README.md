@@ -15,8 +15,7 @@ ToFなLiDARモジュールとサーボを用いて周辺情報を取得する。
 
 社会人というかサラリーマンには好評だった。
 
-* Maker Faire Tokyo 2018に出展
- * 出展ページ:[うーぼーず Wooboos](https://makezine.jp/event/makers2018/m0431/)
+* Maker Faire Tokyo 2018に出展（出展ページ:[うーぼーず Wooboos](https://makezine.jp/event/makers2018/m0431/)）
 
 LiDARを使用して見栄えをよくしたが、、、LiDARの制御が難しい。
 
